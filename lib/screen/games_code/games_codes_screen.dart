@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../api_services/api_services.dart';
 import '../../model/games_code_model.dart';
+import '../../res/common/hash_cache_image.dart';
 import '../../res/common/media_query.dart';
-import 'games_code_information_screen.dart';
+import '../../utils/routes/routes_name.dart';
 
 class GamesCodeScreen extends StatefulWidget {
   const GamesCodeScreen({Key? key}) : super(key: key);
@@ -112,18 +113,25 @@ class _GamesCodeScreenState extends State<GamesCodeScreen>
                 height: height(context) * 0.3,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      blurRadius: 3, // changes the spread of the shadow
+                      offset: Offset(0, 2), // changes position of shadow
+                      spreadRadius: 0, // changes how "thick" the shadow is
+                    ),
+                  ],
+                  color: Colors.teal.shade50,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   clipBehavior: Clip.antiAlias,
-                  child: Image.network(
-                    dataItem.thumbnail.toString(),
-                    height: height(context) * 0.3,
-                    width: double.infinity,
+                  child: AppHashCacheImage(
+                    imageUrl: dataItem.thumbnail.toString(),
+                    Height: height(context) * 0.3,
+                    Width: double.infinity,
                     fit: BoxFit.fill,
-                    // fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -137,13 +145,17 @@ class _GamesCodeScreenState extends State<GamesCodeScreen>
               ),
             ],
           ),
-          onTap: () => Navigator.push(
+          // onTap: () => Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => GamesCodeInformationScreen(
+          //       gamesCodeModel: dataItem,
+          //     ),
+          //   ),
+          onTap: () => Navigator.pushNamed(
+            arguments: dataItem,
             context,
-            MaterialPageRoute(
-              builder: (context) => GamesCodeInformationScreen(
-                gamesCodeModel: dataItem,
-              ),
-            ),
+            RoutesName.gamesCodeInformationScreen,
           ),
         );
       },

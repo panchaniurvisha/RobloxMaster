@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:roblox_master/utils/routes/routes_name.dart';
 
 import '../../api_services/api_services.dart';
 import '../../model/best_games_model.dart';
+import '../../res/common/hash_cache_image.dart';
 import '../../res/common/media_query.dart';
-import 'games_information_screen.dart';
 
 class GamesScreen extends StatefulWidget {
   const GamesScreen({super.key});
@@ -110,18 +111,25 @@ class _GamesScreenState extends State<GamesScreen> {
                 height: height(context) * 0.3,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      blurRadius: 3, // changes the spread of the shadow
+                      offset: Offset(0, 2), // changes position of shadow
+                      spreadRadius: 0, // changes how "thick" the shadow is
+                    ),
+                  ],
+                  color: Colors.teal.shade50,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   clipBehavior: Clip.antiAlias,
-                  child: Image.network(
-                    dataItem.thumbnail.toString(),
-                    height: height(context) * 0.3,
-                    width: double.infinity,
+                  child: AppHashCacheImage(
+                    imageUrl: dataItem.thumbnail.toString(),
+                    Height: height(context) * 0.3,
+                    Width: double.infinity,
                     fit: BoxFit.fill,
-                    // fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -135,14 +143,17 @@ class _GamesScreenState extends State<GamesScreen> {
               ),
             ],
           ),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GamesInformationScreen(
-                gamesCodeModel: dataItem,
-              ),
-            ),
-          ),
+          // onTap: () => Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => GamesInformationScreen(
+          //       gamesCodeModel: dataItem,
+          //     ),
+          //   ),
+          // ),
+          onTap: () => Navigator.pushNamed(
+              context, RoutesName.gamesInformationScreen,
+              arguments: dataItem),
         );
       },
     );

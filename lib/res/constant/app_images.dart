@@ -3,7 +3,6 @@ class AppImages {
   static const String iconBasePath = "assets/icons/";
 
   ///Home Page images---->
-  static const String backGroundImage = "${basePath}background_image.jpg";
   static const String boyImage = "${basePath}boy.png";
   static const String boysClassicPants = "${basePath}boys_classic_pants.png";
   static const String boysClassicShirt = "${basePath}boys_classic_shirt.png";
@@ -16,8 +15,6 @@ class AppImages {
   static const String girlsTShirt = "${basePath}Girls_tshirt.png";
 
   ///Splash screen Image----->
-  static const String splashBackGroundImage =
-      "${basePath}splash screen_background.jpg";
 
   ///Icons----------------------------->
   static const String petsIcon = "${iconBasePath}pets.png";

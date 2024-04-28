@@ -24,8 +24,16 @@ class _SettingScreenState extends State<SettingScreen> {
             itemBuilder: (context, index) => Container(
                 child: Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  color: Colors.black12,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      blurRadius: 3, // changes the spread of the shadow
+                      offset: Offset(0, 2), // changes position of shadow
+                      spreadRadius: 0, // changes how "thick" the shadow is
+                    ),
+                  ],
+                  border: Border.all(color: Colors.blueGrey.withOpacity(0.2)),
+                  color: Colors.white54,
                   borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: height(context) * 0.03),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:roblox_master/model/pet_model.dart';
 import 'package:roblox_master/res/common/media_query.dart';
-import 'package:roblox_master/screen/pets/pet_information_screen.dart';
+import 'package:roblox_master/utils/routes/routes_name.dart';
 
 import '../../api_services/api_services.dart';
+import '../../res/common/hash_cache_image.dart';
 
 class RobLoxPetScreen extends StatefulWidget {
   const RobLoxPetScreen({super.key});
@@ -69,136 +70,76 @@ class _RobLoxPetScreenState extends State<RobLoxPetScreen> {
                       final item = user.data![index];
 
                       return InkWell(
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              Container(
-                                height: height(context) * 0.8,
-                                width: width(context) * 0.4,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.6),
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 2),
-                                      spreadRadius: 0,
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  clipBehavior: Clip.antiAlias,
-                                  child: item.image != null &&
-                                          item.image!.isNotEmpty
-                                      ? Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 30,
-                                          ),
-                                          child: Image.network(
-                                            item.image!,
-                                            fit: BoxFit
-                                                .contain, // Use BoxFit.cover to fill the container
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Center(
-                                                child: Icon(
-                                                  Icons.error_outline,
-                                                  size: height(context) * 0.06,
-                                                ),
-                                              ); // Show error icon if image fails to load
-                                            },
-                                          ),
-                                        )
-                                      : const Center(
-                                          child: Text("No Image"),
-                                        ),
-                                ),
-                              ),
-                              Container(
-                                  height: 30,
-                                  width: width(context) * 0.4,
-                                  child: Align(
-                                    child: Text(
-                                      item.name ?? 'No Name',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    alignment: Alignment.center,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              height: height(context) * 0.8,
+                              width: width(context) * 0.4,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.6),
+                                    blurRadius: 3,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0,
                                   ),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.6),
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(10),
-                                        bottomRight: Radius.circular(10),
-                                      )))
-                            ],
-                          ),
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      PetInformationScreen(petModel: item))));
+                                ],
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white.withOpacity(0.8),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                clipBehavior: Clip.antiAlias,
+                                child:
+                                    item.image != null && item.image!.isNotEmpty
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 30,
+                                            ),
+                                            child: AppHashCacheImage(
+                                              imageUrl: item.image!,
+                                            ))
+                                        : const Center(
+                                            child: Text("No Image"),
+                                          ),
+                              ),
+                            ),
+                            Container(
+                                height: 30,
+                                width: width(context) * 0.4,
+                                child: Align(
+                                  child: Text(
+                                    item.name ?? 'No Name',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                ),
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.6),
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    )))
+                          ],
+                        ),
+                        // onTap: () => Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         PetInformationScreen(petModel: item),
+                        //   ),
+                        // ),
+                        onTap: () => Navigator.pushNamed(
+                            context, RoutesName.petInformationScreen,
+                            arguments: item),
+                      );
                     },
                   ),
                 );
-                //     SizedBox(
-                //   height: height(context) / 8,
-                //   child: ListView.separated(
-                //     shrinkWrap: true,
-                //     scrollDirection: Axis.horizontal,
-                //     itemCount: user.data!.length,
-                //     separatorBuilder: (context, index) => const SizedBox(
-                //       width: 15,
-                //     ),
-                //     itemBuilder: (context, index) {
-                //       final item = user.data![index];
-                //       return Row(
-                //         children: [
-                //           Column(
-                //             children: [
-                //               item.image != null && item.image!.isNotEmpty
-                //                   ? CircleAvatar(
-                //                       maxRadius: 40,
-                //                       backgroundColor: Colors.blue.shade100,
-                //                       child: Padding(
-                //                         padding: const EdgeInsets.all(15.0),
-                //                         child: Image.network(
-                //                           item.image!,
-                //                           fit: BoxFit
-                //                               .contain, // Use BoxFit.cover to fill the container
-                //                           errorBuilder:
-                //                               (context, error, stackTrace) {
-                //                             return Center(
-                //                               child: Icon(
-                //                                 Icons.error_outline,
-                //                                 size: height(context) * 0.06,
-                //                               ),
-                //                             ); // Show error icon if image fails to load
-                //                           },
-                //                         ),
-                //                       ),
-                //                     )
-                //                   : const Center(
-                //                       child: Text("No Image"),
-                //                     ),
-                //               Text(
-                //                 item.name ?? 'No Name',
-                //                 style: const TextStyle(
-                //                   fontWeight: FontWeight.bold,
-                //                   overflow: TextOverflow.ellipsis,
-                //                 ),
-                //               ),
-                //             ],
-                //           )
-                //         ],
-                //       );
-                //     },
-                //   ),
-                // );
               }),
         ],
       ),

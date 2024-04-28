@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:roblox_master/res/constant/app_images.dart';
 import 'package:roblox_master/screen/home/home_screen.dart';
 
 import '../../res/common/media_query.dart';
@@ -31,29 +29,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(AppImages
-                .splashBackGroundImage), // Replace 'splash_image.jpg' with your actual image path
-            fit: BoxFit
-                .cover, // Use BoxFit.cover for background image to cover the whole screen
-          ),
+          color: Colors.teal,
         ),
         child: Center(
-          child: AnimatedTextKit(
-            isRepeatingAnimation: true,
-            animatedTexts: [
-              WavyAnimatedText(
-                "RobLoxMaster",
-                textStyle: TextStyle(
-                    fontSize: height(context) / 20,
-                    decoration: TextDecoration.none,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.lime),
-              ),
-            ],
-            onTap: () {
-              debugPrint("I am executing");
-            },
+          child: Text(
+            "RobLoxMaster",
+            style: TextStyle(
+                fontSize: height(context) / 20,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.w600,
+                color: Colors.black.withOpacity(0.5)),
           ),
         ),
       ),

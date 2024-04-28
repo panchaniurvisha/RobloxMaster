@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:roblox_master/screen/home/home_screen.dart';
+import 'package:roblox_master/utils/routes/app_routes.dart';
+import 'package:roblox_master/utils/routes/routes_name.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,10 @@ class MyApp extends StatelessWidget {
           fontFamily: "Platypi",
           splashColor: Colors.transparent),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      // home: HomeScreen(),
+
+      routes: appRoutes,
+      initialRoute: RoutesName.splashScreen,
     );
   }
 }

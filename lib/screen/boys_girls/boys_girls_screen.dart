@@ -4,10 +4,11 @@ import 'package:roblox_master/model/girls_all_data_model.dart';
 import 'package:roblox_master/res/common/media_query.dart';
 
 import '../../api_services/api_services.dart';
+import '../../res/common/hash_cache_image.dart';
 import '../../res/constant/app_images.dart';
 
 class BoysGirlsScreen extends StatefulWidget {
-  const BoysGirlsScreen({Key? key}) : super(key: key);
+  const BoysGirlsScreen({super.key});
 
   @override
   _BoysGirlsScreenState createState() => _BoysGirlsScreenState();
@@ -84,6 +85,7 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
     girlsSweaterModel = ApiService().fetchGirlsSweaterModel();
   }
 
+  int selectedIndex = 0;
   void _handleItemClick(Map<String, dynamic> item) {
     setState(() {
       // if (selectedItems.contains(item)) {
@@ -124,14 +126,64 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                 separatorBuilder: (context, index) => const SizedBox(width: 15),
                 itemBuilder: (context, index) {
                   final item = boysData[index];
-                  return InkWell(
-                    child: Container(
+
+                  bool isSelected = index == selectedIndex;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (isSelected) {
+                          selectedIndex =
+                              -1; // Deselect the item if already selected
+                        } else {
+                          selectedIndex = index; // Select the tapped item
+                        }
+                      });
+                      _handleItemClick(item);
+                    },
+                    child: AnimatedContainer(
+                      curve: Curves.bounceOut,
+                      duration: Duration(milliseconds: 300),
                       width: width(context) * 0.6,
                       decoration: BoxDecoration(
-                          color: index % 2 == 0
-                              ? Colors.black26
-                              : Colors.amber.shade200,
-                          borderRadius: BorderRadius.circular(40)),
+                        borderRadius: BorderRadius.circular(40),
+                        // border: Border.symmetric(
+                        //     horizontal: BorderSide(
+                        //   color:
+                        //       isSelected ? Colors.black : Colors.amber.shade100,
+                        // )),
+                        color: isSelected
+                            ? Colors.blueGrey.shade300
+                            : Colors.amber.shade100,
+                        gradient: isSelected
+                            ? LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.grey.shade200,
+                                  Colors.grey.shade300,
+                                  Colors.grey.shade400,
+                                  Colors.grey.shade500,
+                                ],
+                              )
+                            : LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.amber.shade100,
+                                  Colors.amber.shade100,
+                                  Colors.amber.shade100,
+                                  Colors.amber.shade100,
+                                ],
+                              ),
+                        boxShadow: [
+                          if (isSelected)
+                            BoxShadow(
+                                color: Colors.white,
+                                offset: Offset(-5, -5),
+                                blurRadius: 15,
+                                spreadRadius: 1),
+                        ],
+                      ),
                       child: Column(
                         children: [
                           Padding(
@@ -155,9 +207,6 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                         ],
                       ),
                     ),
-                    onTap: () {
-                      _handleItemClick(item);
-                    },
                   );
                 },
               ),
@@ -255,23 +304,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (item.image != null && item.image!.isNotEmpty)
-                          Image.network(
-                            item.image!,
-                            fit: BoxFit.contain,
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: height(context) * 0.1),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.error_outline,
-                                    size: MediaQuery.of(context).size.height *
-                                        0.09,
-                                  ),
-                                ),
-                              );
-                            },
+                          AppHashCacheImage(
+                            imageUrl: item.image!,
                           )
                         else
                           const Center(child: Text("No Image")),
@@ -357,23 +391,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -460,23 +479,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -563,23 +567,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -666,23 +655,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -769,23 +743,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -872,23 +831,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -975,23 +919,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -1078,23 +1007,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
@@ -1181,23 +1095,8 @@ class _BoysGirlsScreenState extends State<BoysGirlsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.image != null && item.image!.isNotEmpty)
-                        Image.network(
-                          item.image!,
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height(context) * 0.1),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  size:
-                                      MediaQuery.of(context).size.height * 0.09,
-                                ),
-                              ),
-                            );
-                          },
+                        AppHashCacheImage(
+                          imageUrl: item.image!,
                         )
                       else
                         const Center(child: Text("No Image")),
